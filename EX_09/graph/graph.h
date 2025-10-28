@@ -30,4 +30,6 @@ void add_dummy_graph(Graph *g);
 
 void init_single_source(Graph *g, Vertex *source);
 
-int relax(Vertex *u, Vertex* v);
+int relax(Vertex *u, Vertex *v);
+
+float weight(Vertex *u, Vertex *v);

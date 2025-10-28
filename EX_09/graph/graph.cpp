@@ -76,20 +76,32 @@ int relax(Vertex *u, Vertex* v)
 {
     float udist = u->distance;
     float vdist = v->distance;
-    size_t adjacencies = u->adj.size();
-    for (size_t i = 0; i < adjacencies; i++)
+
+    if(float w = weight(u, v); !std::isnan(w))
     {
-        if (u->adj[i].next == v)
+        if (float dist = udist + w; vdist > dist)
         {
-            if (float dist = udist + u->adj[i].weight; vdist > dist)
-            {
-                v->distance = dist;
-                v->predecessor = u;
-                return 1;
-            }
-            return 0;
+            v->distance = dist;
+            v->predecessor = u;
+            return 1;
         }
+        return 0;
+
     }
 
     return -1;  // u does not have an edge to v
+}
+
+float weight(Vertex *u, Vertex *v)
+{
+    size_t adjacencies = u->adj.size();
+    for (size_t i = 0; i < adjacencies; i++)
+    {
+        Edge &e = u->adj[i];
+        if (e.next == v)
+        {
+            return e.weight;
+        }
+    }
+    return NAN; // u does not have an edge to v
 }
